@@ -1,0 +1,7 @@
+.python-version
+.venv
+node_modules
+__pycache__
+settings.json
+backups
+.env
