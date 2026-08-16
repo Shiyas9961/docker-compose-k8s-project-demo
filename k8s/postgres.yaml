@@ -92,11 +92,11 @@ spec:
               cpu: 100m
               memory: 128Mi
 
-            limit:
+            limits:
               cpu: 200m
               memory: 256Mi
 
-    volumes:
-      - name: postgres-storage
-        PersistentVolumeClaim:
-          claimName: psotgres-pvc
+      volumes:
+        - name: postgres-storage
+          PersistentVolumeClaim:
+            claimName: psotgres-pvc
