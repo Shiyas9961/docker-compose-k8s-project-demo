@@ -5,7 +5,14 @@ metadata:
   namespace: three-tier
 spec:
   selector:
-    app: postgres
+    name: postgres-pod
+
+  type: ClusterIp
+
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
 
 ---
 apiVersion: apps/v1
