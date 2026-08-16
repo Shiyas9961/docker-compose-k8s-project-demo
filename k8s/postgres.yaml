@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: postgres-service
   namespace: three-tier
 spec:
   selector:
@@ -11,25 +11,25 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: postgres-stf-set
   namespace: three-tier
 spec:
-  serviceName: postgres
+  serviceName: postgres-service
 
   replicas: 1
 
   selector:
     matchLabels:
-      app: postgres
+      name: postgres-pod
   
   template:
     metadata:
       labels:
-        app: postgres
+        name: postgres-pod
 
     spec:
       containers:
-        - name: postgres
+        - name: postgres-container
           image: postgres:17-alpine
 
           ports:

@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: three-tier
+
+data:
+  API_URL: "/api"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deploy
+  namespace: three-tier
+
+spec:
+  replicas: 2
+  
+  selector:
+    matchLabels:
+      name: frontend-pod
+
+  template:
+    metadata:
+      labels:
+        name: frontend-pod
+
+    spec:
+      containers:
+        - name: frontend-container
+          image: docker.io/library/react-ui:1.0.0
+
+          imagePullPolicy: Never
+
+          ports:
+            - name: http
+              containerPort: 80
+
+          envFrom:
+            - configMapRef:
+                name: frontend-config
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+
+            initialDelaySeconds: 3
+            periodSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            
+            limit:
+              cpu: 100m
+              memory: 128Mi
+
+---
+apiVersion: v1
+kind: service
+metadata:
+  name: frontend-service
+spec:
+
+  type: ClusterIp
+
+  selector:
+    name: backend-pod
+
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

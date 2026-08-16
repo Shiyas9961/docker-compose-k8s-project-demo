@@ -1,0 +1,89 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deploy
+  namespace: three-tier
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      name: backend-pod
+
+  template:
+    metadata:
+      labels:
+        name: backend-pod
+
+    spec:
+      containers:
+        - name: backend-container
+          image: docker.io/library/fastapi-server:1.0.0
+
+          imagePullPolicy: Never
+
+          ports:
+            - name: http
+              containerPort: 8000
+
+          envFrom:
+            - configMapRef:
+                name: backend-config
+
+            - secretRef:
+                name: postgres-secret
+
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: 8000
+
+            periodSeconds: 5
+            failureThreshold: 12
+
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8000
+
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8000
+
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+            limit:
+              cpu: 200m
+              memory: 256Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: three-tier
+spec:
+
+  type: ClusterIp
+
+  selector:
+    name: backend-pod
+
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
