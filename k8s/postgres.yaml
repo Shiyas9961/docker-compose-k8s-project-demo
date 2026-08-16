@@ -7,7 +7,7 @@ spec:
   selector:
     name: postgres-pod
 
-  type: ClusterIp
+  type: ClusterIP
 
   ports:
     - name: postgres
