@@ -40,7 +40,7 @@ spec:
           image: postgres:17-alpine
 
           ports:
-            containerPort: 5432
+            - containerPort: 5432
 
           env:
             - name: POSTGRES_DB
