@@ -62,7 +62,7 @@ spec:
                   key: DATABASE_PASSWORD
 
           volumeMounts:
-            - postgres-storage
+            - name: postgres-storage
               mountPath: /var/lib/postgresql/data
 
           readinessProbe:
