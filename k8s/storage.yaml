@@ -24,7 +24,7 @@ spec:
   storageClassName: local-storage
 
   local:
-    path: /mn/k8s/postgres
+    path: /mnt/k8s/postgres
 
 
   nodeAffinity:
