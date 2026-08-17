@@ -5,7 +5,7 @@ metadata:
   namespace: three-tier
 
 data:
-  API_URL: "/api"
+  API_URL: "http://backend-service:8000/api"
 
 ---
 apiVersion: apps/v1
@@ -62,21 +62,21 @@ spec:
               cpu: 50m
               memory: 64Mi
             
-            limit:
+            limits:
               cpu: 100m
               memory: 128Mi
 
 ---
 apiVersion: v1
-kind: service
+kind: Service
 metadata:
   name: frontend-service
 spec:
 
-  type: ClusterIp
+  type: ClusterIP
 
   selector:
-    name: backend-pod
+    name: frontend-pod
 
   ports:
     - name: http
