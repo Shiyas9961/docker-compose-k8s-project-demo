@@ -14,7 +14,7 @@ spec:
   capacity:
     storage: 1.2Gi
 
-  volumeMode: FileSystem
+  volumeMode: Filesystem
 
   accessModes:
     - ReadWriteOnce
