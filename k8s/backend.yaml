@@ -66,7 +66,7 @@ spec:
               cpu: 100m
               memory: 128Mi
 
-            limit:
+            limits:
               cpu: 200m
               memory: 256Mi
 
@@ -78,7 +78,7 @@ metadata:
   namespace: three-tier
 spec:
 
-  type: ClusterIp
+  type: ClusterIP
 
   selector:
     name: backend-pod
