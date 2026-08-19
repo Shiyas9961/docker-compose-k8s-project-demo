@@ -14,5 +14,5 @@ metadata:
   name: production-l2
   namespace: metallb-system
 spec:
-  iPAddressPools:
+  ipAddressPools:
     - production-pool
